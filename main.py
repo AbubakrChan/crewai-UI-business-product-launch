@@ -109,6 +109,16 @@ class StreamToExpander:
 # Streamlit interface
 def run_crewai_app():
     st.title("CrewAI Business Product Launch")
+    with st.expander("About the Crew:"):
+        st.subheader("Diagram")
+        st.image("my_img.png")
+        st.text(        
+        role="Market Research Analyst"
+        goal=f"""Analyze the market demand for {product_name} and suggest marketing strategies"""
+        backstory=f"""Expert at understanding market demand, target audience, 
+                      and competition for products like {product_name}. 
+                      Skilled in developing marketing strategies 
+                      to reach a wide audience.""")
     product_name = st.text_input("Enter a product name to analyze the market and business strategy.")
 
     if st.button("Run Analysis"):
