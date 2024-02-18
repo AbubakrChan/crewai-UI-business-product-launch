@@ -119,7 +119,7 @@ def run_crewai_app():
                       and competition for products like {product_name}. 
                       Skilled in developing marketing strategies 
                       to reach a wide audience.""")
-    product_name = st.text_input("Enter a product name to analyze the market and business strategy.)
+    product_name = st.text_input("Enter a product name to analyze the market and business strategy.")
 
     if st.button("Run Analysis"):
         with st.expander("Processing!"):
