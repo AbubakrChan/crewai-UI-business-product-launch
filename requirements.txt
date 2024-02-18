@@ -1,3 +1,4 @@
 streamlit
 crewai
 langchain
+duckduckgo-search
