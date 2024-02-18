@@ -111,11 +111,15 @@ def run_crewai_app():
     st.title("CrewAI Business Product Launch")
     with st.expander("About the Crew:"):
         st.subheader("Diagram")
-        st.image("my_img.png")
+        left_co, cent_co,last_co = st.columns(3)
+        with cent_co:
+            st.image("my_img.png")
+
+        st.subheader("Market Research Analyst")
         st.text("""       
-        role= Market Research Analyst
-        goal=Analyze the market demand for {product_name} and suggest marketing strategies
-        backstory= Expert at understanding market demand, target audience, 
+        Role = Market Research Analyst
+        Goal = Analyze the market demand for {product_name} and suggest marketing strategies
+        Backstory= Expert at understanding market demand, target audience, 
                       and competition for products like {product_name}. 
                       Skilled in developing marketing strategies 
                       to reach a wide audience.""")
