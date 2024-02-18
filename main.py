@@ -120,13 +120,13 @@ def run_crewai_app():
         Role = Market Research Analyst
         Goal = Analyze the market demand for {product_name} and suggest marketing strategies
         Backstory = Expert at understanding market demand, target audience, 
-                      and competition for products like {product_name}. 
-                      Skilled in developing marketing strategies 
-                      to reach a wide audience.
+                    and competition for products like {product_name}. 
+                    Skilled in developing marketing strategies 
+                    to reach a wide audience.
         Task = Analyze the market demand for {product_name}. Current month is Jan 2024.
-                        Write a report on the ideal customer profile and marketing 
-                        strategies to reach the widest possible audience. 
-                        Include at least 10 bullet points addressing key marketing areas. """)
+               Write a report on the ideal customer profile and marketing 
+               strategies to reach the widest possible audience. 
+               Include at least 10 bullet points addressing key marketing areas. """)
 
         
         st.subheader("Technology Expert")
@@ -134,13 +134,13 @@ def run_crewai_app():
         Role = Technology Expert
         Goal = Assess technological feasibilities and requirements for producing high-quality {product_name}
         Backstory = Visionary in current and emerging technological trends, 
-                      especially in products like {product_name}. 
-                      Identifies which technologies are best suited 
-                      for different business models. 
+                    especially in products like {product_name}. 
+                    Identifies which technologies are best suited 
+                    for different business models. 
         Task = Assess the technological aspects of manufacturing 
-                    high-quality {product_name}. Write a report detailing necessary 
-                    technologies and manufacturing approaches. 
-                    Include at least 10 bullet points on key technological areas.""")
+               high-quality {product_name}. Write a report detailing necessary 
+               technologies and manufacturing approaches. 
+               Include at least 10 bullet points on key technological areas.""")
 
 
         st.subheader("Business Development Consultant")
@@ -149,14 +149,14 @@ def run_crewai_app():
         Goal= Evaluate the business model for {product_name}
               focusing on scalability and revenue streams
         Backstory = Seasoned in shaping business strategies for products like {product_name}. 
-                      Understands scalability and potential 
-                      revenue streams to ensure long-term sustainability.
+                    Understands scalability and potential 
+                    revenue streams to ensure long-term sustainability.
         Task = Summarize the market and technological reports 
-                    and evaluate the business model for {product_name}. 
-                    Write a report on the scalability and revenue streams 
-                    for the product. Include at least 10 bullet points 
-                    on key business areas. Give Business Plan, 
-                    Goals and Timeline for the product launch. Current month is Jan 2024. """)
+               and evaluate the business model for {product_name}. 
+               Write a report on the scalability and revenue streams 
+               for the product. Include at least 10 bullet points 
+               on key business areas. Give Business Plan, 
+               Goals and Timeline for the product launch. Current month is Jan 2024. """)
 
     
     product_name = st.text_input("Enter a product name to analyze the market and business strategy.")
