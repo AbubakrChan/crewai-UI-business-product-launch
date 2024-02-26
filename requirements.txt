@@ -1,4 +1,5 @@
 streamlit
+pysqlite3-binary
 crewai
 langchain
 duckduckgo-search
