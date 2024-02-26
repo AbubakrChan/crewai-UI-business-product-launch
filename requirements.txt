@@ -1,5 +1,4 @@
 streamlit
-sqlite3 == 3.35.0
 crewai
 langchain
 duckduckgo-search
