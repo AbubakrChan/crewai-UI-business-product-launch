@@ -83,6 +83,8 @@ def create_crewai_setup(product_name):
     return crew_result
 
 
+
+#display the console processing on streamlit UI
 import re
 class StreamToExpander:
     def __init__(self, expander):
