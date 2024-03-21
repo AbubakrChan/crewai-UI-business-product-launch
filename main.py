@@ -45,13 +45,16 @@ def create_crewai_setup(product_name):
     )
 
     # Define Tasks
+
     task1 = Task(
         description=f"""Analyze the market demand for {product_name}. Current month is Jan 2024.
                         Write a report on the ideal customer profile and marketing 
                         strategies to reach the widest possible audience. 
                         Include at least 10 bullet points addressing key marketing areas.""",
+        expected_output="Report on market demand analysis and marketing strategies.",
         agent=market_research_analyst,
     )
+
 
     task2 = Task(
         description=f"""Assess the technological aspects of manufacturing 
