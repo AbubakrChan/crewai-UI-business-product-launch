@@ -45,7 +45,6 @@ def create_crewai_setup(product_name):
     )
 
     # Define Tasks
-
     task1 = Task(
         description=f"""Analyze the market demand for {product_name}. Current month is Jan 2024.
                         Write a report on the ideal customer profile and marketing 
@@ -56,14 +55,17 @@ def create_crewai_setup(product_name):
     )
 
 
+    # Define Task 2
     task2 = Task(
         description=f"""Assess the technological aspects of manufacturing 
                     high-quality {product_name}. Write a report detailing necessary 
                     technologies and manufacturing approaches. 
                     Include at least 10 bullet points on key technological areas.""",
+        expected_output="Report on technological aspects of manufacturing.",
         agent=technology_expert,
     )
-
+    
+    # Define Task 3
     task3 = Task(
         description=f"""Summarize the market and technological reports 
                     and evaluate the business model for {product_name}. 
@@ -71,8 +73,10 @@ def create_crewai_setup(product_name):
                     for the product. Include at least 10 bullet points 
                     on key business areas. Give Business Plan, 
                     Goals and Timeline for the product launch. Current month is Jan 2024.""",
+        expected_output="Report on business model evaluation and product launch plan.",
         agent=business_consultant,
     )
+
 
     # Create and Run the Crew
     product_crew = Crew(
