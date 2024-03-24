@@ -4,6 +4,8 @@ from crewai import Agent, Task, Crew, Process
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
 
+# os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
+
 duckduckgo_search = DuckDuckGoSearchRun()
 
 def create_crewai_setup(product_name):
@@ -52,8 +54,6 @@ def create_crewai_setup(product_name):
         expected_output="Report on market demand analysis and marketing strategies.",
         agent=market_research_analyst,
     )
-
-
     # Define Task 2
     task2 = Task(
         description=f"""Assess the technological aspects of manufacturing 
@@ -63,7 +63,6 @@ def create_crewai_setup(product_name):
         expected_output="Report on technological aspects of manufacturing.",
         agent=technology_expert,
     )
-    
     # Define Task 3
     task3 = Task(
         description=f"""Summarize the market and technological reports 
@@ -76,7 +75,6 @@ def create_crewai_setup(product_name):
         agent=business_consultant,
     )
 
-
     # Create and Run the Crew
     product_crew = Crew(
         agents=[market_research_analyst, technology_expert, business_consultant],
@@ -87,8 +85,6 @@ def create_crewai_setup(product_name):
 
     crew_result = product_crew.kickoff()
     return crew_result
-
-
 
 #display the console processing on streamlit UI
 import re
@@ -116,14 +112,12 @@ class StreamToExpander:
         if task_value:
             st.toast(":robot_face: " + task_value)
 
-
         # Check if the text contains the specified phrase and apply color
         if "Entering new CrewAgentExecutor chain" in cleaned_data:
             # Apply different color and switch color index
             self.color_index = (self.color_index + 1) % len(self.colors)  # Increment color index and wrap around if necessary
 
             cleaned_data = cleaned_data.replace("Entering new CrewAgentExecutor chain", f":{self.colors[self.color_index]}[Entering new CrewAgentExecutor chain]")
-
 
         if "Market Research Analyst" in cleaned_data:
             # Apply different color 
@@ -135,16 +129,10 @@ class StreamToExpander:
         if "Finished chain." in cleaned_data:
             cleaned_data = cleaned_data.replace("Finished chain.", f":{self.colors[self.color_index]}[Finished chain.]")
 
-
         self.buffer.append(cleaned_data)
         if "\n" in data:
             self.expander.markdown(''.join(self.buffer), unsafe_allow_html=True)
             self.buffer = []
-
-# # Redirect stdout to our custom stream
-# sys.stdout = StreamToUI(st)
-# sys.stdout = sys.__stdout__
-
 
 # Streamlit interface
 def run_crewai_app():
@@ -167,7 +155,6 @@ def run_crewai_app():
                Write a report on the ideal customer profile and marketing 
                strategies to reach the widest possible audience. 
                Include at least 10 bullet points addressing key marketing areas. """)
-
         
         st.subheader("Technology Expert")
         st.text("""       
@@ -181,7 +168,6 @@ def run_crewai_app():
                high-quality {product_name}. Write a report detailing necessary 
                technologies and manufacturing approaches. 
                Include at least 10 bullet points on key technological areas.""")
-
 
         st.subheader("Business Development Consultant")
         st.text("""       
@@ -197,7 +183,6 @@ def run_crewai_app():
                for the product. Include at least 10 bullet points 
                on key business areas. Give Business Plan, 
                Goals and Timeline for the product launch. Current month is Jan 2024. """)
-
     
     product_name = st.text_input("Enter a product name to analyze the market and business strategy.")
 
@@ -210,11 +195,6 @@ def run_crewai_app():
 
         st.header("Results:")
         st.markdown(crew_result)
-        # Create an expander
-        # with st.expander("Output"):
-        #     # Redirect stdout to our custom stream
-        # sys.stdout = StreamToExpander(st)
-
 
 if __name__ == "__main__":
     run_crewai_app()
