@@ -136,8 +136,8 @@ class StreamToExpander:
 
 # Streamlit interface
 def run_crewai_app():
-    st.title("CrewAI Business Product Launch")
-    with st.expander("About the Crew:"):
+    st.title("AI Agent Business Product Launch")
+    with st.expander("About the Team:"):
         st.subheader("Diagram")
         left_co, cent_co,last_co = st.columns(3)
         with cent_co:
