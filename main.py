@@ -6,7 +6,6 @@ from langchain.agents import Tool
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
-
 def create_crewai_setup(product_name):
     # Define Agents
     market_research_analyst = Agent(
