@@ -8,6 +8,9 @@ from langchain.agents import Tool
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
+#to keep track of tasks performed by agents
+task_values = []
+
 def create_crewai_setup(product_name):
     # Define Agents
     market_research_analyst = Agent(
@@ -188,10 +191,12 @@ def run_crewai_app():
 
     if st.button("Run Analysis"):
         with st.expander("Processing!"):
-
             sys.stdout = StreamToExpander(st)
             with st.spinner("Generating Results"):
                 crew_result = create_crewai_setup(product_name)
+
+        st.header("Tasks:")
+        st.table({"Tasks" : task_values})
 
         st.header("Results:")
         st.markdown(crew_result)
