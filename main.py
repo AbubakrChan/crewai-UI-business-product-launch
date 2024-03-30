@@ -1,11 +1,24 @@
 import sys
+import time
 import streamlit as st
 from crewai import Agent, Task, Crew, Process
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
-import re
+from langchain_openai import ChatOpenAI
+import os
 
-# os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
+# NOTE: to find which model names you have, use cli tool:  `ollama list`
+llm = ChatOpenAI(
+      model='llama2',
+      base_url="http://localhost:11434/v1",
+      api_key="NA"
+    )
+
+taskmasterllm = ChatOpenAI(
+      model='taskmastermodel',
+      base_url="http://localhost:11434/v1",
+      api_key="NA"
+    )
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
@@ -25,6 +38,8 @@ def create_crewai_setup(product_name):
         verbose=True,
         allow_delegation=True,
         tools=[duckduckgo_search],
+        llm=llm,
+        max_iter=2,
     )
 
     technology_expert = Agent(
@@ -36,6 +51,8 @@ def create_crewai_setup(product_name):
                       for different business models.""",
         verbose=True,
         allow_delegation=True,
+        llm=llm,
+        max_iter=2,
     )
 
     business_consultant = Agent(
@@ -47,7 +64,10 @@ def create_crewai_setup(product_name):
                       revenue streams to ensure long-term sustainability.""",
         verbose=True,
         allow_delegation=True,
+        llm=llm,
+        max_iter=2,
     )
+
 
     # Define Tasks
     task1 = Task(
@@ -84,7 +104,8 @@ def create_crewai_setup(product_name):
         agents=[market_research_analyst, technology_expert, business_consultant],
         tasks=[task1, task2, task3],
         verbose=2,
-        process=Process.sequential,
+        process=Process.hierarchical,
+        manager_llm=taskmasterllm,
     )
 
     crew_result = product_crew.kickoff()
@@ -128,6 +149,8 @@ class StreamToExpander:
             cleaned_data = cleaned_data.replace("Business Development Consultant", f":{self.colors[self.color_index]}[Business Development Consultant]")
         if "Technology Expert" in cleaned_data:
             cleaned_data = cleaned_data.replace("Technology Expert", f":{self.colors[self.color_index]}[Technology Expert]")
+        # if "Project Manager" in cleaned_data:
+        #     cleaned_data = cleaned_data.replace("Project Manager", f":{self.colors[self.color_index]}[Project Manager]")
         if "Finished chain." in cleaned_data:
             cleaned_data = cleaned_data.replace("Finished chain.", f":{self.colors[self.color_index]}[Finished chain.]")
 
@@ -189,10 +212,20 @@ def run_crewai_app():
     product_name = st.text_input("Enter a product name to analyze the market and business strategy.")
 
     if st.button("Run Analysis"):
+        # Placeholder for stopwatch
+        stopwatch_placeholder = st.empty()
+        
+        # Start the stopwatch
+        start_time = time.time()
         with st.expander("Processing!"):
             sys.stdout = StreamToExpander(st)
             with st.spinner("Generating Results"):
                 crew_result = create_crewai_setup(product_name)
+
+        # Stop the stopwatch
+        end_time = time.time()
+        total_time = end_time - start_time
+        stopwatch_placeholder.text(f"Total Time Elapsed: {total_time:.2f} seconds")
 
         st.header("Tasks:")
         st.table({"Tasks" : task_values})
