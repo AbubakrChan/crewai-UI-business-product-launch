@@ -6,6 +6,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
 from langchain_openai import ChatOpenAI
 import os
+import re
 
 # NOTE: to find which model names you have, use cli tool:  `ollama list`
 llm = ChatOpenAI(
@@ -14,11 +15,6 @@ llm = ChatOpenAI(
       api_key="NA"
     )
 
-taskmasterllm = ChatOpenAI(
-      model='taskmastermodel',
-      base_url="http://localhost:11434/v1",
-      api_key="NA"
-    )
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
@@ -39,7 +35,6 @@ def create_crewai_setup(product_name):
         allow_delegation=True,
         tools=[duckduckgo_search],
         llm=llm,
-        max_iter=2,
     )
 
     technology_expert = Agent(
@@ -52,7 +47,6 @@ def create_crewai_setup(product_name):
         verbose=True,
         allow_delegation=True,
         llm=llm,
-        max_iter=2,
     )
 
     business_consultant = Agent(
@@ -65,7 +59,6 @@ def create_crewai_setup(product_name):
         verbose=True,
         allow_delegation=True,
         llm=llm,
-        max_iter=2,
     )
 
 
@@ -104,8 +97,7 @@ def create_crewai_setup(product_name):
         agents=[market_research_analyst, technology_expert, business_consultant],
         tasks=[task1, task2, task3],
         verbose=2,
-        process=Process.hierarchical,
-        manager_llm=taskmasterllm,
+        process=Process.sequential,
     )
 
     crew_result = product_crew.kickoff()
@@ -149,8 +141,6 @@ class StreamToExpander:
             cleaned_data = cleaned_data.replace("Business Development Consultant", f":{self.colors[self.color_index]}[Business Development Consultant]")
         if "Technology Expert" in cleaned_data:
             cleaned_data = cleaned_data.replace("Technology Expert", f":{self.colors[self.color_index]}[Technology Expert]")
-        # if "Project Manager" in cleaned_data:
-        #     cleaned_data = cleaned_data.replace("Project Manager", f":{self.colors[self.color_index]}[Project Manager]")
         if "Finished chain." in cleaned_data:
             cleaned_data = cleaned_data.replace("Finished chain.", f":{self.colors[self.color_index]}[Finished chain.]")
 
