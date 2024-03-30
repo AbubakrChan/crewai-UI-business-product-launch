@@ -3,6 +3,7 @@ import streamlit as st
 from crewai import Agent, Task, Crew, Process
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
+import re
 
 # os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
 
@@ -90,8 +91,6 @@ def create_crewai_setup(product_name):
     return crew_result
 
 #display the console processing on streamlit UI
-import re
-
 class StreamToExpander:
     def __init__(self, expander):
         self.expander = expander
