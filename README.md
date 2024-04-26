@@ -1,4 +1,4 @@
-# Streamlit UI for crewai (works for every llm it could be ollama, llama 🦙 3 or groq)
+# Streamlit UI for crewai (works for every llm it could be ollama, llama 🦙 3 or groq etc)
 
 ### Prerequisites
 
