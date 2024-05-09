@@ -15,7 +15,6 @@ llm = ChatOpenAI(
       api_key="NA"
     )
 
-
 duckduckgo_search = DuckDuckGoSearchRun()
 
 #to keep track of tasks performed by agents
@@ -225,4 +224,3 @@ def run_crewai_app():
 
 if __name__ == "__main__":
     run_crewai_app()
-
