@@ -34,13 +34,7 @@ Before proceeding, ensure you have the following installed on your system:
    ```
 4. **Set Up OpenAI API Key:**
 
-   To utilize the OpenAI API within the application, ensure you have an OpenAI API key. Set your OpenAI API key as an environmental variable named OPENAI_API_KEY on your system. Replace sk-xxxxxxxxxxxxxxxxx with your actual OpenAI API key.
-
-   ```
-   export OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxx
-   ```
-   
-   OR
+   To utilize the OpenAI API within the application, ensure you have an OpenAI API key. Set your OpenAI API key as an environmental variable named OPENAI_API_KEY on your system.
    
    Create a .env file in the project directory if it doesn't exist already. Add the following line to the .env file, replacing sk-xxxxxxxxxxxxxxxxx with your actual OpenAI API key:
    
