@@ -5,6 +5,7 @@ from crewai import Agent, Task, Crew, Process
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain.agents import Tool
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 import os
 import re
 
@@ -14,6 +15,10 @@ llm = ChatOpenAI(
       base_url="http://localhost:11434/v1",
       api_key="NA"
     )
+groq = ChatGroq(
+      api_key = "NA", #get the api key https://console.groq.com/keys
+      model_name ="NA"#choose any models from here https://console.groq.com/docs/models
+)
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
@@ -31,9 +36,9 @@ def create_crewai_setup(product_name):
                       Skilled in developing marketing strategies 
                       to reach a wide audience.""",
         verbose=True,
-        allow_delegation=True,
+        allow_delegation=False,
         tools=[duckduckgo_search],
-        llm=llm,
+        llm=llm,#replace groq if you want
     )
 
     technology_expert = Agent(
@@ -44,7 +49,7 @@ def create_crewai_setup(product_name):
                       Identifies which technologies are best suited 
                       for different business models.""",
         verbose=True,
-        allow_delegation=True,
+        allow_delegation=False,
         llm=llm,
     )
 
@@ -56,7 +61,7 @@ def create_crewai_setup(product_name):
                       Understands scalability and potential 
                       revenue streams to ensure long-term sustainability.""",
         verbose=True,
-        allow_delegation=True,
+        allow_delegation=False,
         llm=llm,
     )
 
