@@ -55,3 +55,7 @@ This command will launch the application, and you should see the URL where the a
 ### Usage
 
 - Upon running the Streamlit application, you will be presented with the interface of the CrewAI Business Product Launch.
+
+### Demo
+- https://www.loom.com/share/ab57dc1585804b7a86cc8a8315d9d294
+
