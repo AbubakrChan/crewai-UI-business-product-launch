@@ -7,20 +7,34 @@ from langchain.agents import Tool
 from langchain_openai import ChatOpenAI
 import os
 import re
+import requests
 
-# NOTE: to find which model names you have, use cli tool:  `ollama list`
-llm = ChatOpenAI(
-      model='llama2',
-      base_url="http://localhost:11434/v1",
-      api_key="NA"
+
+@st.cache_data
+def get_ollama_models():
+    response = requests.get('http://localhost:11434/api/tags')
+    if response.status_code == 200:
+        models_data = response.json()
+        return [model['name'] for model in models_data['models']]
+    else:
+        st.error('Failed to fetch Ollama models')
+        return []
+
+def set_ollama_model(model_name):
+
+    llm = ChatOpenAI(
+        model=model_name,
+        base_url="http://localhost:11434/v1",
+        api_key="NA"
     )
+    return llm
 
 duckduckgo_search = DuckDuckGoSearchRun()
 
 #to keep track of tasks performed by agents
 task_values = []
 
-def create_crewai_setup(product_name):
+def create_crewai_setup(product_name, llm):
     # Define Agents
     market_research_analyst = Agent(
         role="Market Research Analyst",
@@ -151,6 +165,14 @@ class StreamToExpander:
 # Streamlit interface
 def run_crewai_app():
     st.title("AI Agent Business Product Launch")
+    st.title("Ollama Model Selector")
+    ollama_models = get_ollama_models()
+    selected_model = st.selectbox("Select an Ollama Model", ollama_models)
+
+    if st.button("Set Model"):
+        st.session_state.llm=set_ollama_model(selected_model)
+        st.success(f"Model set to {selected_model}")
+
     with st.expander("About the Team:"):
         st.subheader("Diagram")
         left_co, cent_co,last_co = st.columns(3)
@@ -204,23 +226,26 @@ def run_crewai_app():
         # Placeholder for stopwatch
         stopwatch_placeholder = st.empty()
         
-        # Start the stopwatch
-        start_time = time.time()
-        with st.expander("Processing!"):
-            sys.stdout = StreamToExpander(st)
-            with st.spinner("Generating Results"):
-                crew_result = create_crewai_setup(product_name)
+        if 'llm' in st.session_state and st.session_state.llm is not None:
+            # Start the stopwatch
+            start_time = time.time()
+            with st.expander("Processing!"):
+                sys.stdout = StreamToExpander(st)
+                with st.spinner("Generating Results"):
+                    crew_result = create_crewai_setup(product_name, st.session_state.llm)
 
-        # Stop the stopwatch
-        end_time = time.time()
-        total_time = end_time - start_time
-        stopwatch_placeholder.text(f"Total Time Elapsed: {total_time:.2f} seconds")
+            # Stop the stopwatch
+            end_time = time.time()
+            total_time = end_time - start_time
+            stopwatch_placeholder.text(f"Total Time Elapsed: {total_time:.2f} seconds")
 
-        st.header("Tasks:")
-        st.table({"Tasks" : task_values})
+            st.header("Tasks:")
+            st.table({"Tasks" : task_values})
 
-        st.header("Results:")
-        st.markdown(crew_result)
-
+            st.header("Results:")
+            st.markdown(crew_result)
+        else:
+            st.error("Please select a model first.")
+        
 if __name__ == "__main__":
     run_crewai_app()
